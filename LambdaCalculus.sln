@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 10
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus", "LambdaCalculus\LambdaCalculus.fsproj", "{CB19AB21-9808-4C36-97A5-79A9B30A8D66}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus.Tests", "LambdaCalculus.Tests\LambdaCalculus.Tests.fsproj", "{97C276E7-2A07-47A8-9775-A934A6F374BE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{98BF8B07-435F-4200-A29B-3D586400D02F}"
+	ProjectSection(SolutionItems) = preProject
+		License.htm = License.htm
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs09.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = LambdaCalculus.Tests\\LambdaCalculus.Tests.fsproj
+		SccProjectName1 = LambdaCalculus.Tests
+		SccLocalPath1 = LambdaCalculus.Tests
+		SccProjectUniqueName2 = LambdaCalculus\\LambdaCalculus.fsproj
+		SccProjectName2 = LambdaCalculus
+		SccLocalPath2 = LambdaCalculus
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB19AB21-9808-4C36-97A5-79A9B30A8D66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB19AB21-9808-4C36-97A5-79A9B30A8D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB19AB21-9808-4C36-97A5-79A9B30A8D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB19AB21-9808-4C36-97A5-79A9B30A8D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
