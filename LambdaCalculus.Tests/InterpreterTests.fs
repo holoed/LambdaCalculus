@@ -1,4 +1,4 @@
-// * **********************************************************************************************
+﻿// * **********************************************************************************************
 // * Copyright (c) Edmondo Pentangelo. 
 // *
 // * This source code is subject to terms and conditions of the Microsoft Public License. 
@@ -9,24 +9,21 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-// This file is a script that can be executed with the F# Interactive.  
-// It can be used to explore and test the library project.
-// Note that script files will not be part of the project build.
-
-#load "ParserMonad.fs"
-#load "ParserCombinators.fs"
-#load "Tokenizer.fs"
-#load "Parser.fs"
-#load "Interpreter.fs"
-#load "AstToCode.fs"
-
+open NUnit.Framework
 open Tokenizer
 open Parser
 open Interpreter
-open AstToCode
 
-let f x = x
-          |> tokenize
-          |> parse
-          |> interpret []
-          |> toString
+[<TestFixture>]
+type InterpreterTests =
+    new() = {}
+    
+    [<Test>]
+    member o.Test() = ()
+    
+    [<Test>]
+    member o.Identity() = 
+        Assert.AreEqual(
+            Closure(Letter('y'), Var(Letter('y')), []),
+            interpret [] (Apply (Lambda(Letter 'x', Var( Letter 'x' )), Lambda(Letter 'y', Var( Letter 'y' ))))) 
+        
