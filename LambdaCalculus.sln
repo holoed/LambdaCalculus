@@ -10,9 +10,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		License.htm = License.htm
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus.Run", "LambdaCalculus.Run\LambdaCalculus.Run.fsproj", "{997DF2AB-C095-4899-B2F8-778D11DD0490}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs09.codeplex.com/
 		SccLocalPath0 = .
@@ -22,6 +24,9 @@ Global
 		SccProjectUniqueName2 = LambdaCalculus\\LambdaCalculus.fsproj
 		SccProjectName2 = LambdaCalculus
 		SccLocalPath2 = LambdaCalculus
+		SccProjectUniqueName3 = LambdaCalculus.Run\\LambdaCalculus.Run.fsproj
+		SccProjectName3 = LambdaCalculus.Run
+		SccLocalPath3 = LambdaCalculus.Run
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +41,10 @@ Global
 		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97C276E7-2A07-47A8-9775-A934A6F374BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
