@@ -13,10 +13,15 @@ open NUnit.Framework
 open Tokenizer
 open Parser
 
+let private f = Letter 'f'
 let private x = Letter 'x'
 let private y = Letter 'y'
 let private z = Letter 'z'
+let private n = Letter 'n'
 let private λ = Symbol 'λ'
+
+
+let parse x = x |> tokenize |> parse
 
 [<TestFixture>]
 type ParserTests = 
@@ -26,20 +31,54 @@ type ParserTests =
     member o.Test() = ()
     
     [<Test>]
-    member o.Var() = Assert.AreEqual(Var x,  parse [x])
+    member o.Var() = Assert.AreEqual(Var x,  parse "x")
     
     [<Test>]
     member o.Lambda() = Assert.AreEqual(
                           Lambda(x, Var x), 
-                          parse [λ;x;Symbol('.');x])
+                          parse "λx.x")
 
     [<Test>]
     member o.Application() = Assert.AreEqual(
                                 Apply(Var x, Var y), 
-                                parse [x;WhiteSpace;y])
+                                parse "x y")
                              Assert.AreEqual(
                                 Apply(Apply(Var x, Var y), Var z), 
-                                parse [x;WhiteSpace;y;WhiteSpace;z])
+                                parse "x y z")
+                                
+    [<Test>]
+    member o.ApplicationWithParenthesis() = 
+                             Assert.AreEqual(
+                                Apply(Var f, Apply(Var f, Var x)), 
+                                parse "f (f x)")
+
+    [<Test>]
+    member o.LambdaInsideApply() = 
                              Assert.AreEqual(
                                 Apply(Lambda(x, Var x), Lambda(y, Var y)), 
-                                parse [Symbol('(');λ;x;Symbol('.');x;Symbol(')');WhiteSpace;Symbol('(');λ;y;Symbol('.');y;Symbol(')')])
+                                parse "(λx.x) (λy.y)")
+
+    [<Test>]
+    member o.ChurchZero() = 
+                             Assert.AreEqual(
+                                Lambda(f, Lambda(x, Var(x))), 
+                                parse "λf.λx.x")
+
+    [<Test>]
+    member o.ChurchOne() = 
+                             Assert.AreEqual(
+                                Lambda(f, Lambda(x, Apply(Var(f), Var(x)))), 
+                                parse "λf.λx.(f x)")
+                                
+    [<Test>]
+    member o.ChurchTwo() =   Assert.AreEqual(
+                                Lambda(f, Lambda(x, Apply(Var(f), Apply(Var(f), Var(x))))), 
+                                parse "λf.λx.(f (f x))")
+                                
+    [<Test>]
+    member o.Succ() =        Assert.AreEqual(
+                                Lambda(n, 
+                                    Lambda(f, 
+                                        Lambda(x, 
+                                            Apply(Var(f), Apply(Apply(Var n, Var f), Var x))))), 
+                                parse "λn.λf.λx.(f (n f x))")

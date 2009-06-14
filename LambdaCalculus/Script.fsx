@@ -30,3 +30,7 @@ let f x = x
           |> parse
           |> interpret []
           |> toString
+          
+//f "?f.?x.(f x)"
+//f "?f.?x.(f (f x))"          
+f "(?n.?f.?x.(f (n f x))) (?f.?x.(f x))"

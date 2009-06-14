@@ -46,8 +46,8 @@
     <Compile Include="ParserCombinators.fs" />
     <Compile Include="Tokenizer.fs" />
     <Compile Include="Parser.fs" />
-    <Compile Include="Interpreter.fs" />
     <Compile Include="AstToCode.fs" />
+    <Compile Include="Interpreter.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <Import Project="$(ProgramFiles)\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />

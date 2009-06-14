@@ -40,9 +40,8 @@ while(true) do
  printf "> "
  let line = readLine()
  if (line <> null && line <> "" && line<> "\r") then
-        printfn "%s" (line
-                       |> tokenize
-                       |> parse
-                       |> interpret []
-                       |> toString)
+        try
+            printfn "%s" (interpret line)
+        with
+        | ex -> printfn "%s" ex.Message
                          

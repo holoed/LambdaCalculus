@@ -10,20 +10,32 @@
 // * **********************************************************************************************
 
 open NUnit.Framework
-open Tokenizer
-open Parser
 open Interpreter
 
 [<TestFixture>]
 type InterpreterTests =
     new() = {}
-    
+
     [<Test>]
-    member o.Test() = ()
+    member o.NoOp() = 
+        Assert.AreEqual("(λy.y)", interpret "(λy.y)")
     
     [<Test>]
     member o.Identity() = 
-        Assert.AreEqual(
-            Closure(Letter('y'), Var(Letter('y')), []),
-            interpret [] (Apply (Lambda(Letter 'x', Var( Letter 'x' )), Lambda(Letter 'y', Var( Letter 'y' ))))) 
+        Assert.AreEqual("(λy.y)", interpret "(λx.x) (λy.y)")
         
+    [<Test>]
+    member o.Succ() = 
+        Assert.AreEqual("(λn.(λf.(λx.(f ((n f) x)))))", interpret "(λn.λf.λx.(f (n f x)))")
+        
+    [<Test>]
+    member o.SuccOne() = 
+        Assert.AreEqual("(λf.(λx.(f (f x))))", interpret "(λn.λf.λx.(f (n f x))) (λf.λx.(f x))")
+
+    [<Test>]
+    member o.SuccTwo() = 
+        Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λn.λf.λx.(f (n f x))) (λf.λx.(f (f x)))")           
+
+    [<Test>]
+    member o.SuccThree() = 
+        Assert.AreEqual("(λf.(λx.(f (f (f (f x))))))", interpret "(λn.λf.λx.(f (n f x))) (λf.λx.(f (f (f x))))")          
