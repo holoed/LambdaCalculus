@@ -29,7 +29,7 @@ let rec apply env e =
         let v2 = apply env e2 in
         match v1 with
         | Closure (s, e3, env2) -> apply ((s, v2) :: env2) e3
-        | _ -> e
+        | _ -> Apply(v1, v2)
         
 let rec close env e = 
      match e with
@@ -41,8 +41,9 @@ let rec close env e =
 let rec reduce e =
     let reduce' e = 
         match e with
-        | Apply(Lambda(x, body), Var x') when x = x' -> reduce body
+        | Apply(Lambda(_), _) -> e |> apply [] |> close []
         | Lambda(arg, body) -> Lambda(arg, reduce body)
+        | Closure(_,_,env) -> e
         | Apply(e1, e2) -> Apply(reduce e1, reduce e2)              
         | _ -> e
     let e' = reduce' e
@@ -55,5 +56,6 @@ let interpret e = e
                   |> close []
                   |> reduce
                   |> toString
+                  
 
     

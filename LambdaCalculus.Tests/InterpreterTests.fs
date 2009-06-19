@@ -46,8 +46,12 @@ type InterpreterTests =
                      
     [<Test>] 
     member o.OnePlusOne() = 
-        Assert.AreEqual("(λf.(λx.((λx.(f x)) (f x))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λf.λx.(f x)) (λf.λx.(f x))") 
+        Assert.AreEqual("(λf.(λx.(f (f x))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λf.λx.(f x)) (λf.λx.(f x))") 
               
     [<Test>] 
     member o.TwoPlusOne() = 
-        Assert.AreEqual("(λf.(λx.((λx.(f (f x))) (f x))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λf.λx.(f (f x))) (λf.λx.(f x))")         
+        Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λf.λx.(f (f x))) (λf.λx.(f x))")         
+        
+    [<Test>] 
+    member o.ThreePlusTwo() = 
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f x)))))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λh.λx.(h (h x))) (λg.λx.(g (g (g x))))")         
