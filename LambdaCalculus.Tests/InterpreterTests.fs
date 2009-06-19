@@ -54,4 +54,8 @@ type InterpreterTests =
         
     [<Test>] 
     member o.ThreePlusTwo() = 
-        Assert.AreEqual("(λf.(λx.(f (f (f (f (f x)))))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λh.λx.(h (h x))) (λg.λx.(g (g (g x))))")         
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f x)))))))", interpret "(λm.λn.λf.λx.((m f) (n f x))) (λh.λx.(h (h x))) (λg.λx.(g (g (g x))))")  
+        
+    [<Test>]
+    member o.TwoMultiplyByThree() =
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f x))))))))", interpret "(λm.λn.λf.(n (m f))) (λh.λx.(h (h x))) (λg.λx.(g (g (g x))))")       
