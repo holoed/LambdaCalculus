@@ -29,26 +29,24 @@ let rec apply env e =
         let v2 = apply env e2 in
         match v1 with
         | Closure (s, e3, env2) -> apply ((s, v2) :: env2) e3
-        | _ -> failwith "Impossible"
+        | _ -> e
         
 let rec close env e = 
      match e with
-     | Closure(arg, body, env) -> Lambda(arg, (close env body))
-     | Var s -> if (exists s env) then assoc s env else Var s
+     | Closure(arg, body, env') -> Lambda(arg, (close env' body))
+     | Var s -> if (exists s env) then close [] (assoc s env) else Var s
      | Apply (e1, e2) -> Apply( (close env e1), (close env e2) )
      | Lambda(arg, body) -> Lambda(arg, close env body)
      
 let rec reduce e =
     let reduce' e = 
         match e with
-        | Apply(Closure(x, body, []), Var(x')) when x = x' -> body
-        | Apply(Lambda(x, body), Var(x')) when x = x' -> body
-        | Apply(a, b) -> Apply(reduce a, reduce b)
-        | Lambda(x, body) -> Lambda(x, reduce body)
-        | Closure(x, body, []) -> Lambda(x, reduce body)
-        | Var x -> Var x
+        | Apply(Lambda(x, body), Var x') when x = x' -> reduce body
+        | Lambda(arg, body) -> Lambda(arg, reduce body)
+        | Apply(e1, e2) -> Apply(reduce e1, reduce e2)              
+        | _ -> e
     let e' = reduce' e
-    if (e' = e) then e else reduce e'
+    if (e' = e) then e else reduce e'     
     
 let interpret e = e
                   |> tokenize
