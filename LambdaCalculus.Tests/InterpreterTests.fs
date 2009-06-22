@@ -58,4 +58,14 @@ type InterpreterTests =
         
     [<Test>]
     member o.TwoMultiplyByThree() =
-        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f x))))))))", interpret "(λm.λn.λf.(n (m f))) (λh.λx.(h (h x))) (λg.λx.(g (g (g x))))")       
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f x))))))))", interpret "(λm.λn.λf.(n (m f))) (λh.λx.(h (h x))) (λg.λx.(g (g (g x))))")     
+        
+    [<Test>]
+    member o.Pred() =
+        Assert.AreEqual("(λn.(λf.(λx.(((n (λg.(λh.(h (g f))))) (λu.x)) (λu.u)))))", interpret "(λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u)))")     
+        
+    [<Test>]
+    member o.PredFour() =
+        Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) (λf.λx.(f (f (f (f x)))))")     
+        
+          
