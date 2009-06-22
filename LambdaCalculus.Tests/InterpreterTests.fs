@@ -102,4 +102,12 @@ type InterpreterTests =
         
     [<Test>]
     member o.IfFalseThenFive() =
-         Assert.AreEqual("(λf.(λx.(f (f (f (f (f x)))))))", interpret "(λp.λa.λb.(p a b)) (λx.λy.y) (λf.λx.(f (f (f x)))) (λf.λx.(f (f (f (f (f x))))))")        
+         Assert.AreEqual("(λf.(λx.(f (f (f (f (f x)))))))", interpret "(λp.λa.λb.(p a b)) (λx.λy.y) (λf.λx.(f (f (f x)))) (λf.λx.(f (f (f (f (f x))))))") 
+         
+    [<Test>]
+    member o.IfZeroOneElseNumberMinusOne() =
+        Assert.AreEqual("(λf.(λx.(f x)))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.x)")   
+        Assert.AreEqual("(λf.(λx.x))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f x))")   
+        Assert.AreEqual("(λf.(λx.(f x)))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f (f x)))")   
+        Assert.AreEqual("(λf.(λx.(f (f x))))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f (f (f x))))")    
+        Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f (f (f (f x)))))")
