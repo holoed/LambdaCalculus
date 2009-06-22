@@ -90,4 +90,16 @@ type InterpreterTests =
         
     [<Test>]
     member o.IsZeroAppliedToThreeIsFalse() =
-        Assert.AreEqual("(λx.(λy.y))", interpret "(λn.(n (λx.(λx.λy.y)) (λx.λy.x))) (λf.λx.(f (f (f x))))")          
+        Assert.AreEqual("(λx.(λy.y))", interpret "(λn.(n (λx.(λx.λy.y)) (λx.λy.x))) (λf.λx.(f (f (f x))))")  
+        
+    [<Test>]
+    member o.IfThenElse() =
+        Assert.AreEqual("(λp.(λa.(λb.((p a) b))))", interpret "λp.λa.λb.(p a b)")    
+        
+    [<Test>]
+    member o.IfTrueThenThree() =
+         Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λp.λa.λb.(p a b)) (λx.λy.x) (λf.λx.(f (f (f x)))) (λf.λx.(f (f (f (f (f x))))))")       
+        
+    [<Test>]
+    member o.IfFalseThenFive() =
+         Assert.AreEqual("(λf.(λx.(f (f (f (f (f x)))))))", interpret "(λp.λa.λb.(p a b)) (λx.λy.y) (λf.λx.(f (f (f x)))) (λf.λx.(f (f (f (f (f x))))))")        
