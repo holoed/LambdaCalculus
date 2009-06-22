@@ -67,5 +67,27 @@ type InterpreterTests =
     [<Test>]
     member o.PredFour() =
         Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) (λf.λx.(f (f (f (f x)))))")     
+
+    [<Test>]
+    member o.True() =
+        Assert.AreEqual("(λx.(λy.x))", interpret "λx.λy.x")  
         
-          
+    [<Test>]
+    member o.False() =
+        Assert.AreEqual("(λx.(λy.y))", interpret "λx.λy.y")  
+        
+    [<Test>]
+    member o.IsZero() =
+        Assert.AreEqual("(λn.((n (λx.(λx.(λy.y)))) (λx.(λy.x))))", interpret "λn.(n (λx.(λx.λy.y)) (λx.λy.x))")     
+
+    [<Test>]
+    member o.IsZeroAppliedToZeroIsTrue() =
+        Assert.AreEqual("(λx.(λy.x))", interpret "(λn.(n (λx.(λx.λy.y)) (λx.λy.x))) (λf.λx.x)") 
+        
+    [<Test>]
+    member o.IsZeroAppliedToOneIsFalse() =
+        Assert.AreEqual("(λx.(λy.y))", interpret "(λn.(n (λx.(λx.λy.y)) (λx.λy.x))) (λf.λx.(f x))")    
+        
+    [<Test>]
+    member o.IsZeroAppliedToThreeIsFalse() =
+        Assert.AreEqual("(λx.(λy.y))", interpret "(λn.(n (λx.(λx.λy.y)) (λx.λy.x))) (λf.λx.(f (f (f x))))")          
