@@ -111,3 +111,7 @@ type InterpreterTests =
         Assert.AreEqual("(λf.(λx.(f x)))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f (f x)))")   
         Assert.AreEqual("(λf.(λx.(f (f x))))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f (f (f x))))")    
         Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i))) (λf.λx.(f (f (f (f x)))))")
+        
+    [<Test>]
+    member o.AlmostFactorial() =
+        Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λk.λi.((λp.λa.λb.(p a b)) ((λn.(n (λx.(λx.λy.y)) (λx.λy.x))) i) (λf.λx.(f x)) (k ((λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u))) i)))) (λx.x) (λf.λx.(f (f (f (f x)))))")
