@@ -11,38 +11,8 @@
 
 open NUnit.Framework
 open Interpreter
+open Utils
 
-let succ = "(λn.λf.λx.(f (n f x)))"
-let pred = "(λn.λf.λx.(n (λg.λh.(h (g f))) (λu.x) (λu.u)))"
-let plus = "(λm.λn.λf.λx.((m f) (n f x)))"
-let mult = "(λm.λn.λf.(n (m f)))"
-let zero = "(λf.λx.x)"
-let one  = "(λf.λx.(f x))"
-let two  = "(λf.λx.(f (f x)))"
-let three  = "(λf.λx.(f (f (f x))))"
-let four   = "(λf.λx.(f (f (f (f x)))))"
-let five   = "(λf.λx.(f (f (f (f (f x))))))"
-let btrue  = "λx.λy.x"
-let bfalse  = "λx.λy.y"
-let ifthenelse = "λp.λa.λb.(p a b)"
-let iszero = "(λn.(n (λx.(false)) (true)))"
-
-let desugar (txt:string) = txt  
-                                .Replace("succ", succ)
-                                .Replace("pred", pred)
-                                .Replace("+", plus)
-                                .Replace("*", mult)
-                                .Replace("0", zero)
-                                .Replace("1", one)
-                                .Replace("2", two)
-                                .Replace("3", three)
-                                .Replace("4", four)
-                                .Replace("5", five)
-                                .Replace("ifThenElse", ifthenelse)
-                                .Replace("iszero", iszero)
-                                .Replace("true", btrue)
-                                .Replace("false", bfalse)
- 
 let interpret txt = txt |> desugar |> interpret
 
 [<TestFixture>]
@@ -98,6 +68,10 @@ type InterpreterTests =
         Assert.AreEqual("(λn.(λf.(λx.(((n (λg.(λh.(h (g f))))) (λu.x)) (λu.u)))))", interpret "pred")     
         
     [<Test>]
+    member o.PredOne() =
+        Assert.AreEqual("(λf.(λx.x))", interpret "pred 1")  
+
+    [<Test>]
     member o.PredFour() =
         Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "pred 4")     
 
@@ -148,3 +122,7 @@ type InterpreterTests =
     [<Test>]
     member o.AlmostFactorial() =
         Assert.AreEqual("(λf.(λx.(f (f (f x)))))", interpret "(λk.λi.((ifThenElse) (iszero i) 1 (k (pred i)))) (λx.x) 4")
+        
+    [<Test>]    
+    member o.AlmostFactorialFixed() =
+        Assert.AreEqual("(λf.(λx.(f x)))", interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (k (pred i)))) 0")

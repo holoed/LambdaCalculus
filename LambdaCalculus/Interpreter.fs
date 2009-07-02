@@ -19,6 +19,13 @@ let assoc x xs =
     
 let exists x xs = List.exists ( fun (k,v) -> k = x ) xs
 
+let rec close env e = 
+     match e with
+     | Closure(arg, body, env') -> Lambda(arg, (close env' body))
+     | Var s -> if (exists s env) then close [] (assoc s env) else Var s
+     | Apply (e1, e2) -> Apply( (close env e1), (close env e2) )
+     | Lambda(arg, body) -> Lambda(arg, close env body)
+
 let rec apply env e =
     match e with
     | Var s -> if (exists s env) then assoc s env else Var s
@@ -26,36 +33,32 @@ let rec apply env e =
     | Closure _ -> e
     | Apply (e1, e2) -> 
         let v1 = apply env e1 in
-        let v2 = apply env e2 in
+        let v2 = close env e2
         match v1 with
-        | Closure (s, e3, env2) -> apply ((s, v2) :: env2) e3
+        | Closure (s, e3, env2) -> apply ((s, v2) :: env2) e3 |> close []
         | _ -> Apply(v1, v2)
-        
-let rec close env e = 
-     match e with
-     | Closure(arg, body, env') -> Lambda(arg, (close env' body))
-     | Var s -> if (exists s env) then close [] (assoc s env) else Var s
-     | Apply (e1, e2) -> Apply( (close env e1), (close env e2) )
-     | Lambda(arg, body) -> Lambda(arg, close env body)
-     
+             
 let rec reduce e =
     let reduce' e = 
         match e with
-        | Apply(Lambda(_), _) -> e |> apply [] |> close []
-        | Lambda(arg, body) -> Lambda(arg, reduce body)
-        | Closure(_,_,env) -> e
-        | Apply(e1, e2) -> Apply(reduce e1, reduce e2)              
+        | Apply(_, _) -> e |> apply []         
         | _ -> e
     let e' = reduce' e
-    if (e' = e) then e else reduce e'     
+    if (e' = e) then e else reduce e' 
+
+let rec simplify e =
+    let simplify' e = 
+        match e with
+        | Apply(Lambda _, y) -> apply [] e
+        | Lambda(x, body) -> Lambda(x, simplify body)
+        | Apply(x,y) -> Apply(simplify x, simplify y)         
+        | _ -> e
+    let e' = simplify' e
+    if (e' = e) then e else simplify e' 
     
 let interpret e = e
                   |> tokenize
                   |> parse
-                  |> apply []
-                  |> close []
                   |> reduce
+                  |> simplify
                   |> toString
-                  
-
-    

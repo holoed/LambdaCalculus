@@ -33,6 +33,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+  <Import Project="$(ProgramFiles)\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
+  <ItemGroup>
+    <Compile Include="Utils.fs" />
+    <Compile Include="TokenizerTests.fs" />
+    <Compile Include="ParserTests.fs" />
+    <Compile Include="InterpreterTests.fs" />
+    <None Include="Script.fsx" />
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
@@ -47,20 +55,12 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="TokenizerTests.fs" />
-    <Compile Include="ParserTests.fs" />
-    <Compile Include="InterpreterTests.fs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LambdaCalculus\LambdaCalculus.fsproj">
       <Name>LambdaCalculus</Name>
       <Project>{cb19ab21-9808-4c36-97a5-79a9b30a8d66}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(ProgramFiles)\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.
 	<Target Name="BeforeBuild">
