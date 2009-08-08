@@ -16,8 +16,6 @@ open Tokenizer
 type exp = | Var of Token
            | Lambda of Token * exp
            | Apply of exp * exp
-           | Closure of Token * exp * env
- and env = (Token * exp) list
 
 let isWhiteSpace = function
                    | WhiteSpace -> true

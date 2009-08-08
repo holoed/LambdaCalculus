@@ -13,52 +13,33 @@ open Parser
 open Tokenizer
 open AstToCode
 
-let assoc x xs = 
-    let (k,v) = List.find ( fun (k,v) -> k = x ) xs
-    v 
-    
-let exists x xs = List.exists ( fun (k,v) -> k = x ) xs
+let rec subst x v a =
+  match a with 
+  | Var y -> 
+        if x = y then v else a
+  | Lambda(y, a') ->
+        if x = y then a else Lambda(y, subst x v a')
+  | Apply(a', a'') ->
+        Apply(subst x v a', subst x v a'')
 
-let rec close env e = 
-     match e with
-     | Closure(arg, body, env') -> Lambda(arg, (close env' body))
-     | Var s -> if (exists s env) then close [] (assoc s env) else Var s
-     | Apply (e1, e2) -> Apply( (close env e1), (close env e2) )
-     | Lambda(arg, body) -> Lambda(arg, close env body)
-
-let rec apply env e =
-    match e with
-    | Var s -> if (exists s env) then assoc s env else Var s
-    | Lambda (s, e') -> Closure (s, e', env)
-    | Closure _ -> e
-    | Apply (e1, e2) -> 
-        let v1 = apply env e1 in
-        let v2 = close env e2
-        match v1 with
-        | Closure (s, e3, env2) -> apply ((s, v2) :: env2) e3 |> close []
-        | _ -> Apply(v1, v2)
-             
 let rec reduce e =
-    let reduce' e = 
+    //printfn "%s" (toString e)
+    let rec reduce' e = 
         match e with
-        | Apply(_, _) -> e |> apply []         
-        | _ -> e
-    let e' = reduce' e
-    if (e' = e) then e else reduce e' 
-
-let rec simplify e =
-    let simplify' e = 
-        match e with
-        | Apply(Lambda _, y) -> apply [] e
-        | Lambda(x, body) -> Lambda(x, simplify body)
-        | Apply(x,y) -> Apply(simplify x, simplify y)         
-        | _ -> e
-    let e' = simplify' e
-    if (e' = e) then e else simplify e' 
+        | Var _ -> e
+        | Lambda (s, e') -> Lambda(s, reduce' e')
+        | Apply(e1, e2) ->
+           match e1 with
+           | Lambda(s, e3) -> subst s e2 e3
+           | _ -> Apply(reduce' e1, reduce' e2)
+    reduce' e
     
+let rec loop f x =
+    let x' = f x
+    if x = x' then x' else loop f x'
+
 let interpret e = e
                   |> tokenize
                   |> parse
-                  |> reduce
-                  |> simplify
+                  |> loop reduce
                   |> toString

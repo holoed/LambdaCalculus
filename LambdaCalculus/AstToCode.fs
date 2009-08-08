@@ -13,7 +13,6 @@ open Tokenizer
 open Parser
 
 let rec toString exp = match exp with
-                       | Closure(x,y,_) -> toString(Lambda(x,y))
                        | Lambda(Letter(x),y) -> sprintf "(λ%c.%s)" x (toString y)
                        | Var(Letter(x)) -> sprintf "%c" x
                        | Apply(x, y) -> sprintf "(%s %s)" (toString x) (toString y)

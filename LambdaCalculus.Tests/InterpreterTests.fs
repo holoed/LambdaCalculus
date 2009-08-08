@@ -126,3 +126,17 @@ type InterpreterTests =
     [<Test>]    
     member o.AlmostFactorialFixed() =
         Assert.AreEqual("(λf.(λx.(f x)))", interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (k (pred i)))) 0")
+        
+    [<Test>]    
+    member o.Factorial3() =
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f x))))))))", interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 3")
+        
+    [<Test>]    
+    member o.Factorial4() =
+        let ret = interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 4"
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x))))))))))))))))))))))))))", ret)
+       
+    [<Test>]    
+    member o.Factorial5() =
+        let ret = interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 5"
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))", ret)         
