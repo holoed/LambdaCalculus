@@ -139,4 +139,18 @@ type InterpreterTests =
     [<Test>]    
     member o.Factorial5() =
         let ret = interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 5"
-        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))", ret)         
+        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))", ret)       
+        
+    [<Test>]
+    member o.And() =
+        Assert.AreEqual("(λx.(λy.x))", interpret "(and) (true) (true)")   
+        Assert.AreEqual("(λx.(λy.y))", interpret "(and) (true) (false)")   
+        Assert.AreEqual("(λx.(λy.y))", interpret "(and) (false) (true)") 
+        Assert.AreEqual("(λx.(λy.y))", interpret "(and) (false) (false)")  
+        
+    [<Test>]
+    member o.Or() =
+        Assert.AreEqual("(λx.(λy.x))", interpret "(or) (true) (true)")   
+        Assert.AreEqual("(λx.(λy.x))", interpret "(or) (true) (false)")   
+        Assert.AreEqual("(λx.(λy.x))", interpret "(or) (false) (true)") 
+        Assert.AreEqual("(λx.(λy.y))", interpret "(or) (false) (false)")        

@@ -21,9 +21,14 @@ let four   = "(λf.λx.(f (f (f (f x)))))"
 let five   = "(λf.λx.(f (f (f (f (f x))))))"
 let btrue  = "λx.λy.x"
 let bfalse  = "λx.λy.y"
+let bAnd = "λp.λq.(p q p)"
+let bOr = "λp.λq.(p p q)"
+let not = "λp.λa.λb.(p b a)"
 let ifthenelse = "λp.λa.λb.(p a b)"
 let iszero = "(λn.(n (λx.(false)) (true)))"
 let fix = "(λf.((λx.(f (λy.(x x y)))) (λx.(f (λy.(x x y))))))"
+
+
 
 let desugar (txt:string) = txt  
                                 .Replace("succ", succ)
@@ -38,6 +43,9 @@ let desugar (txt:string) = txt
                                 .Replace("5", five)
                                 .Replace("ifThenElse", ifthenelse)
                                 .Replace("iszero", iszero)
+                                .Replace("and", bAnd)
+                                .Replace("or", bOr)
+                                .Replace("not", not)
                                 .Replace("true", btrue)
                                 .Replace("false", bfalse)
                                 .Replace("fix", fix)
