@@ -153,4 +153,9 @@ type InterpreterTests =
         Assert.AreEqual("(λx.(λy.x))", interpret "(or) (true) (true)")   
         Assert.AreEqual("(λx.(λy.x))", interpret "(or) (true) (false)")   
         Assert.AreEqual("(λx.(λy.x))", interpret "(or) (false) (true)") 
-        Assert.AreEqual("(λx.(λy.y))", interpret "(or) (false) (false)")        
+        Assert.AreEqual("(λx.(λy.y))", interpret "(or) (false) (false)")     
+        
+    [<Test>]
+    member o.Not() =
+        Assert.AreEqual("(λa.(λb.b))", interpret "(not) (true)")  
+        Assert.AreEqual("(λa.(λb.a))", interpret "(not) (false)")   
