@@ -43,7 +43,10 @@ while(true) do
  let line = readLine ""
  if (line <> null && line <> "" && line<> "\r") then
         try
-            printfn "%s" (interpret line)
+            line
+            |> interpret
+            |> toString
+            |> printfn "%s"
         with
         | ex -> printfn "%s" ex.Message
                          

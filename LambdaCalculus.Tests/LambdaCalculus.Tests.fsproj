@@ -39,7 +39,7 @@
     <Compile Include="TokenizerTests.fs" />
     <Compile Include="ParserTests.fs" />
     <Compile Include="InterpreterTests.fs" />
-    <None Include="Script.fsx" />
+    <Compile Include="NumbersTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

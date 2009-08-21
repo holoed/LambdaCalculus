@@ -42,4 +42,3 @@ let interpret e = e
                   |> tokenize
                   |> parse
                   |> loop reduce
-                  |> toString

@@ -12,8 +12,9 @@
 open NUnit.Framework
 open Interpreter
 open Utils
+open AstToCode
 
-let interpret txt = txt |> desugar |> interpret
+let interpret txt = txt |> desugar |> interpret |> toString
 
 [<TestFixture>]
 type InterpreterTests =
