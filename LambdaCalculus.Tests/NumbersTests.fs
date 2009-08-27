@@ -12,6 +12,7 @@
 open NUnit.Framework
 open Numbers
 open Interpreter
+open AstToCode
 
 [<TestFixture>]
 type NumberTests = 
@@ -59,6 +60,32 @@ type NumberTests =
         |> interpret
         |> ToNumber
         |> ignore
-   
-                
+        
+    [<Test>]
+    member o.From0() =
+        0
+        |> FromNumber
+        |> ToNumber
+        |> fun actual -> Assert.AreEqual(0, actual)
+        
+    [<Test>]
+    member o.From1() =
+        1
+        |> FromNumber
+        |> ToNumber
+        |> fun actual -> Assert.AreEqual(1, actual)
+        
+    [<Test>]
+    member o.From2() =
+        2
+        |> FromNumber
+        |> ToNumber
+        |> fun actual -> Assert.AreEqual(2, actual)
+
+    [<Test>]
+    member o.From7() =
+        7
+        |> FromNumber
+        |> ToNumber
+        |> fun actual -> Assert.AreEqual(7, actual)                        
         

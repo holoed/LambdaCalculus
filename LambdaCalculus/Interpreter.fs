@@ -13,14 +13,27 @@ open Parser
 open Tokenizer
 open AstToCode
 
-let rec subst x v a =
-  match a with 
-  | Var y -> 
-        if x = y then v else a
-  | Lambda(y, a') ->
-        if x = y then a else Lambda(y, subst x v a')
-  | Apply(a', a'') ->
-        Apply(subst x v a', subst x v a'')
+//let rec subst x v a =
+//  match a with 
+//  | Var y -> 
+//        if x = y then v else a
+//  | Lambda(y, a') ->
+//        if x = y then a else Lambda(y, subst x v a')
+//  | Apply(a', a'') ->
+//        Apply(subst x v a', subst x v a'')
+   
+//Tail Recursive Version using CPS Technique     
+let subst x v e = 
+    let rec Loop (x, e) cont = 
+        match e with 
+        | Var(y) -> cont (if x = y then v else e) 
+        | Lambda(y, body) -> let x' = if x = y then Letter '_' else x
+                             Loop (x', body) (fun bodyAcc -> 
+                             cont (Lambda(y, bodyAcc))) 
+        | Apply(l, r) -> Loop (x, l) (fun lacc -> 
+                         Loop (x, r) (fun racc -> 
+                         cont (Apply(lacc, racc)))) 
+    Loop (x, e) (fun x -> x)
 
 let rec reduce e =
     //printfn "%s" (toString e)

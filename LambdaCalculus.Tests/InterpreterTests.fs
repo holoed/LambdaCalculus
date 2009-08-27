@@ -13,8 +13,10 @@ open NUnit.Framework
 open Interpreter
 open Utils
 open AstToCode
+open Numbers
 
-let interpret txt = txt |> desugar |> interpret |> toString
+let interpret' txt = txt |> desugar |> interpret
+let interpret txt = txt |> interpret' |> toString
 
 [<TestFixture>]
 type InterpreterTests =
@@ -134,13 +136,31 @@ type InterpreterTests =
         
     [<Test>]    
     member o.Factorial4() =
-        let ret = interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 4"
-        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x))))))))))))))))))))))))))", ret)
+        let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 4"
+                  |> interpret'
+                  |> ToNumber
+        Assert.AreEqual(24, ret)
        
     [<Test>]    
     member o.Factorial5() =
-        let ret = interpret "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 5"
-        Assert.AreEqual("(λf.(λx.(f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))", ret)       
+        let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 5"
+                  |> interpret'
+                  |> ToNumber
+        Assert.AreEqual(120, ret)
+        
+    [<Test>] 
+    member o.Factorial6() =
+        let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 6"
+                  |> interpret'
+                  |> ToNumber
+        Assert.AreEqual(720, ret)
+
+    [<Test>] 
+    member o.Factorial7() =
+        let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 7"
+                  |> interpret'
+                  |> ToNumber
+        Assert.AreEqual(5040, ret)
         
     [<Test>]
     member o.And() =

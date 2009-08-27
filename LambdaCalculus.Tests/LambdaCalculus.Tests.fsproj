@@ -33,6 +33,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <StartWorkingDirectory>C:\Program Files\NUnit-2.5.0.9122-src\NUnit-2.5.0.9122\solutions\vs2008\bin\Debug\</StartWorkingDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\NUnit-2.5.0.9122-src\NUnit-2.5.0.9122\solutions\vs2008\bin\Debug\nunit.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <StartAction>Project</StartAction>
+    <StartProgram>C:\Program Files\NUnit-2.5.0.9122-src\NUnit-2.5.0.9122\solutions\vs2008\bin\Debug\nunit.exe</StartProgram>
+    <StartArguments>
+    </StartArguments>
+    <Tailcalls>true</Tailcalls>
+  </PropertyGroup>
   <Import Project="$(ProgramFiles)\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>
     <Compile Include="Utils.fs" />
@@ -40,6 +52,7 @@
     <Compile Include="ParserTests.fs" />
     <Compile Include="InterpreterTests.fs" />
     <Compile Include="NumbersTests.fs" />
+    <Compile Include="SubstTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

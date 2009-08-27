@@ -19,6 +19,8 @@ let two  = "(λf.λx.(f (f x)))"
 let three  = "(λf.λx.(f (f (f x))))"
 let four   = "(λf.λx.(f (f (f (f x)))))"
 let five   = "(λf.λx.(f (f (f (f (f x))))))"
+let six   = "(λf.λx.(f (f (f (f (f (f x)))))))"
+let seven   = "(λf.λx.(f (f (f (f (f (f (f x))))))))"
 let btrue  = "λx.λy.x"
 let bfalse  = "λx.λy.y"
 let bAnd = "λp.λq.(p q p)"
@@ -41,6 +43,8 @@ let desugar (txt:string) = txt
                                 .Replace("3", three)
                                 .Replace("4", four)
                                 .Replace("5", five)
+                                .Replace("6", six)
+                                .Replace("7", seven)
                                 .Replace("ifThenElse", ifthenelse)
                                 .Replace("iszero", iszero)
                                 .Replace("and", bAnd)
