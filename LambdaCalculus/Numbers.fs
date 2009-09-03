@@ -12,25 +12,17 @@
 open Tokenizer
 open Parser
 
-let rec ToNumber exp = match exp with
-                       | Lambda(f, Lambda(x, Var x')) when x = x' -> 0
-                       | Lambda(f, Lambda(x, Apply(Var f', exp''))) when f = f' -> 
-                                1 + ToNumber (Lambda(f, Lambda(x, exp'')))
-                       | _ -> failwith "NaN"
+let ToNumber exp =
+   let rec ToNumberAux exp acc =
+                match exp with
+                | Lambda(f, Lambda(x, Var x')) when x = x' -> acc
+                | Lambda(f, Lambda(x, Apply(Var f', exp''))) when f = f' ->
+                                ToNumberAux (Lambda(f, Lambda(x, exp''))) (acc + 1)
+                | _ -> failwith "NaN"
+   ToNumberAux exp 0
 
-//Tail Recursive Version using CPS Technique                         
-let FromNumber n = 
-    let rec Loop n cont = 
-        match n with 
-        | 0 -> cont (Var (Letter 'x')) 
-        | n -> Loop (n - 1) (fun nacc ->  
-                       cont (Apply(Var (Letter 'f'), nacc)))
-    Lambda(Letter 'f', Lambda(Letter 'x', Loop n (fun x -> x))) 
-                       
-//let FromNumber exp = 
-//                 let rec FromNumberAux exp = 
-//                         match exp with
-//                         | 0 -> Var (Letter 'x')
-//                         | n -> Apply(Var (Letter 'f'), FromNumberAux (n - 1))
-//                 Lambda(Letter 'f', Lambda(Letter 'x', FromNumberAux exp)) 
 
+let FromNumber n =
+    let folded = List.fold (fun exp _ -> Apply(Var (Letter 'f'), exp)) (Var (Letter 'x')) [1..n]
+    Lambda(Letter 'f', Lambda(Letter 'x', folded))
+ 

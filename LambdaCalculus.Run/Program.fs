@@ -14,6 +14,7 @@ open Tokenizer
 open Parser
 open Interpreter
 open AstToCode
+open Numbers
 
 printfn "Lambda Calculus interpreter 0.0.0.0"
 

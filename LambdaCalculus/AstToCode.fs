@@ -12,7 +12,14 @@
 open Tokenizer
 open Parser
 
-let rec toString exp = match exp with
-                       | Lambda(Letter(x),y) -> sprintf "(λ%c.%s)" x (toString y)
-                       | Var(Letter(x)) -> sprintf "%c" x
-                       | Apply(x, y) -> sprintf "(%s %s)" (toString x) (toString y)
+let toString exp =
+    let rec Loop e cont =
+           match e with
+           | Lambda(Letter(x),y) -> Loop y (fun yacc -> cont (sprintf "(λ%c.%s)" x yacc))
+           | Var(Letter(x)) -> cont (sprintf "%c" x)
+           | Apply(x, y) -> Loop x (fun xacc ->
+                            Loop y (fun yacc ->
+                                    cont(sprintf "(%s %s)" xacc yacc)))
+           | _ -> failwith "Invalid lambda expression"
+    Loop exp (fun x -> x)
+

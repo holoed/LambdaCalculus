@@ -44,6 +44,7 @@
     <StartArguments>
     </StartArguments>
     <Tailcalls>true</Tailcalls>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <Import Project="$(ProgramFiles)\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
   <ItemGroup>

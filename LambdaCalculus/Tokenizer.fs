@@ -16,6 +16,7 @@ open ParserCombinators
 type Token = | Letter of char
              | Symbol of char
              | WhiteSpace
+             | Empty
 
 let letter = parser { let! x = sat Char.IsLetter
                       return Letter(x) }

@@ -156,10 +156,19 @@ type InterpreterTests =
         Assert.AreEqual(720, ret)
 
     [<Test>] 
+     [<Ignore("Works only in release mode")>]
     member o.Factorial7() =
         let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 7"
                   |> interpret'
                   |> ToNumber
+        Assert.AreEqual(5040, ret)
+        
+    [<Test>] 
+    [<Ignore("It works but it takes more than an hour.")>]
+    member o.Factorial8() =
+        let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 8)"
+                  |> interpret'
+       
         Assert.AreEqual(5040, ret)
         
     [<Test>]
