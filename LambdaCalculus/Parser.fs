@@ -12,10 +12,7 @@
 open ParserMonad
 open ParserCombinators
 open Tokenizer
-
-type exp = | Var of Token
-           | Lambda of Token * exp
-           | Apply of exp * exp
+open Ast
 
 let isWhiteSpace = function
                    | WhiteSpace -> true

@@ -11,6 +11,7 @@
 
 open Parser
 open Tokenizer
+open Ast
 open AstToCode
 
 //Tail Recursive Version using CPS Technique

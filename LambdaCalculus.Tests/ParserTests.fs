@@ -11,6 +11,7 @@
 
 open NUnit.Framework
 open Tokenizer
+open Ast
 open Parser
 
 let private f = Letter 'f'

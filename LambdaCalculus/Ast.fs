@@ -10,13 +10,17 @@
 // * **********************************************************************************************
 
 open Tokenizer
-open Ast
 
-let toString =
-    foldExpr
-        (fun x -> sprintf "%c" x)
-        (fun x y -> sprintf "(λ%c.%s)" x y)
-        (fun x y -> sprintf "(%s %s)" x y)
+type exp = | Var of Token
+           | Lambda of Token * exp
+           | Apply of exp * exp
 
-
-
+let foldExpr varF lamF appF exp = 
+    let rec Loop e cont = 
+        match e with
+        | Var (Letter x) -> cont (varF x)
+        | Lambda (Letter x, body) -> Loop body (fun bodyAcc -> cont (lamF x bodyAcc))
+        | Apply (l, r) -> Loop l (fun lAcc ->
+                          Loop r (fun rAcc ->
+                                  cont (appF lAcc rAcc)))
+    Loop exp (fun x -> x)
