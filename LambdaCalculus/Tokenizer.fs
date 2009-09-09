@@ -24,14 +24,11 @@ let letter = parser { let! x = sat Char.IsLetter
 let symbol = parser { let! x = sat (fun ch -> ch = 'λ' or ch = '.' or ch = '(' or ch = ')')
                       return Symbol(x) } 
                       
-let whiteSpace = parser { let! x = sat (fun ch -> ch = ' ')
+let whiteSpace = parser { let! _ = sat (fun ch -> ch = ' ')
                           return WhiteSpace }                   
 
 let lex = symbol +++ letter +++ whiteSpace
 
-let lex' = parser { let! x = many lex
-                    return x }
-
-let tokenize s = match apply lex' (Seq.to_list s)  with
+let tokenize s = match apply (many lex) (Seq.to_list s)  with
                  | [] -> failwith "failed to tokenize"
                  | (ret, _)::xs -> ret 

@@ -36,9 +36,9 @@ let appOp = parser { let! _ = sat isWhiteSpace
                      return fun x y -> Apply(x,y) }
                    
 let rec exp = chainl1 term appOp
-     and term = lambda ++ var +++ parser { let! _ = sat (fun x -> x = Symbol('('))
+     and term = lambda ++ var +++ parser { let! _ = sat (isSymbol('('))
                                            let! n = exp
-                                           let! _ = sat (fun x -> x = Symbol(')'))
+                                           let! _ = sat (isSymbol(')'))
                                            return n }
      and lambda = parser { let! _ = sat (isSymbol('λ'))
                            let! arg = sat (isLetter)
