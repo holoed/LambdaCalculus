@@ -22,35 +22,35 @@ type NumberTests =
     member o.Zero() = 
         "λf.λx.x" 
         |> interpret
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(0, actual)
         
     [<Test>]
     member o.One() = 
         "λf.λx.(f x)" 
         |> interpret
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(1, actual)
         
     [<Test>]
     member o.Two() = 
         "λf.λx.(f (f x))" 
         |> interpret
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(2, actual)
         
     [<Test>]
     member o.Three() = 
         "λf.λx.(f (f (f x)))" 
         |> interpret
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(3, actual)
         
     [<Test>]
     member o.Seven() = 
         "λf.λx.(f (f (f (f (f (f (f x)))))))" 
         |> interpret
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(7, actual)
                 
     [<Test>]
@@ -58,34 +58,34 @@ type NumberTests =
     member o.NaN() = 
         "λx.x" 
         |> interpret
-        |> ToNumber
+        |> toNumber
         |> ignore
         
     [<Test>]
     member o.From0() =
         0
         |> FromNumber
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(0, actual)
         
     [<Test>]
     member o.From1() =
         1
         |> FromNumber
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(1, actual)
         
     [<Test>]
     member o.From2() =
         2
         |> FromNumber
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(2, actual)
 
     [<Test>]
     member o.From7() =
         7
         |> FromNumber
-        |> ToNumber
+        |> toNumber
         |> fun actual -> Assert.AreEqual(7, actual)                        
         

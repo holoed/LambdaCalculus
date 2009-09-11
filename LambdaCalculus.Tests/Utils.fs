@@ -25,10 +25,18 @@ let ifthenelse = "λp.λa.λb.(p a b)"
 let iszero = "(λn.(n (λx.(false)) (true)))"
 let fix = "(λf.((λx.(f (λy.(x x y)))) (λx.(f (λy.(x x y))))))"
 
+// Pairs (2-Tuple)
+let pair = "(λx.λy.λf.(f x y))"
+let first = "(λp.(p true))"
+let second = "(λp.(p false))"
+
 let FromNumber = FromNumber >> toString
 
 
 let desugar (txt:string) = txt  
+                                .Replace("pair", pair)
+                                .Replace("first", first)
+                                .Replace("second", second)
                                 .Replace("succ", succ)
                                 .Replace("pred", pred)
                                 .Replace("+", plus)

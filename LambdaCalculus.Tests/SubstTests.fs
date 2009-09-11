@@ -64,7 +64,7 @@ type SubstTests=
             
             
     [<Test>]
-    [<Ignore("Make ToNumber Tail Recursive")>]
+    [<Ignore("Make toNumber Tail Recursive")>]
     member o.Test8() = 
         let number = match (FromNumber 100000) with
                      | Lambda(Letter 'f', body) -> body 
@@ -73,5 +73,5 @@ type SubstTests=
         let ret = number
                   |> subst (Letter 'f') (Var(Letter 'g'))
                   |> subst (Letter 'g') (Var(Letter 'f'))
-                  |> ToNumber
+                  |> toNumber
         Assert.AreEqual(100000, ret)

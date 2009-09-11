@@ -13,7 +13,7 @@ open Tokenizer
 open Ast
 open Parser
 
-let ToNumber exp =
+let toNumber exp =
    let rec ToNumberAux exp acc =
                 match exp with
                 | Lambda(f, Lambda(x, Var x')) when x = x' -> acc

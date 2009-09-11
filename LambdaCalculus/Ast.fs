@@ -11,10 +11,12 @@
 
 open Tokenizer
 
+// AST data type
 type exp = | Var of Token
            | Lambda of Token * exp
            | Apply of exp * exp
 
+// Generalised tail recursive fold over AST datatype (Catamorphism)
 let foldExpr varF lamF appF exp = 
     let rec Loop e cont = 
         match e with

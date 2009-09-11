@@ -138,21 +138,21 @@ type InterpreterTests =
     member o.Factorial4() =
         let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 4"
                   |> interpret'
-                  |> ToNumber
+                  |> toNumber
         Assert.AreEqual(24, ret)
        
     [<Test>]    
     member o.Factorial5() =
         let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 5"
                   |> interpret'
-                  |> ToNumber
+                  |> toNumber
         Assert.AreEqual(120, ret)
         
     [<Test>] 
     member o.Factorial6() =
         let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 6"
                   |> interpret'
-                  |> ToNumber
+                  |> toNumber
         Assert.AreEqual(720, ret)
 
     [<Test>] 
@@ -160,7 +160,7 @@ type InterpreterTests =
     member o.Factorial7() =
         let ret = "fix (λk.λi.((ifThenElse) (iszero i) 1 (* i (k (pred i))))) 7"
                   |> interpret'
-                  |> ToNumber
+                  |> toNumber
         Assert.AreEqual(5040, ret)
         
     [<Test>] 
@@ -189,3 +189,13 @@ type InterpreterTests =
     member o.Not() =
         Assert.AreEqual("(λa.(λb.b))", interpret "(not) (true)")  
         Assert.AreEqual("(λa.(λb.a))", interpret "(not) (false)")   
+        
+    [<Test>]
+    member o.Pair() =
+        let (x, y) = (5, 6)
+        let pair = interpret (sprintf "pair %i %i" x y) 
+        let first = interpret' (sprintf "first %s" pair)
+        let second = interpret' (sprintf "second %s" pair)
+        Assert.AreEqual(x, toNumber first)
+        Assert.AreEqual(y, toNumber second)
+        
