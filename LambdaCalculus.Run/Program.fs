@@ -16,14 +16,14 @@ open Interpreter
 open AstToCode
 open Numbers
 
-printfn "Lambda Calculus interpreter 0.0.0.0"
+printfn "Lambda Calculus interpreter 0.0.0.1"
 
 System.Console.OutputEncoding <- System.Text.Encoding.UTF8
 
 let rec readLine (s:string) =    let ch = System.Console.ReadKey();
                                  let pos = if Console.CursorLeft > 0 then (Console.CursorLeft - 1) else 0
                                  System.Console.SetCursorPosition(pos, Console.CursorTop);
-                                 if (ch.KeyChar = '\b') then
+                                 if (ch.KeyChar = '\b' && pos > 0) then
                                   System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
                                   Console.Write(' ');
                                   System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
