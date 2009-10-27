@@ -11,22 +11,26 @@
 
 // Parser Monad (http://www.cs.nott.ac.uk/~gmh/pearl.pdf)
 
-type Parser<'a,'b> = Parser of ('a ->('b * 'a) list)
+namespace LambdaCalculus
+module ParserMonad = 
 
-let extract(Parser(f)) = f
+    type Parser<'a,'b> = Parser of ('a ->('b * 'a) list)
 
-type ParserMonad() =
-    member b.Bind(p, f) = Parser (fun cs ->
-                                            let r = extract(p) cs
-                                            let r' = List.map (fun (a,cs') -> extract(f a) cs') r
-                                            List.concat r')
-    member b.Return(x) = Parser (fun cs -> [x,cs])
-    member b.Zero() = Parser (fun cs -> [])
+    let extract(Parser f) = f
+
+    type ParserMonad() =
+        member b.Bind (p, f) = Parser (fun cs ->
+                                                let r = extract p cs in
+                                                let r' = List.map (fun (a,cs') -> extract (f a) cs') r in
+                                                List.concat r')
+        member b.Return x = Parser (fun cs -> [x,cs])
+        member b.Zero () = Parser (fun cs -> [])
+        member b.ReturnFrom x = x
 
 
-let (++) p q = Parser(fun cs -> List.append (extract p cs) (extract q cs))
-let (+++) p q = Parser(fun cs -> match (extract(p ++ q) cs) with
-                                 | [] -> []
-                                 | x::xs -> [x])
+    let (++) p q = Parser(fun cs -> List.append (extract p cs) (extract q cs))
+    let (+++) p q = Parser(fun cs -> match (extract(p ++ q) cs) with
+                                     | [] -> []
+                                     | x::xs -> [x])
 
-let parser = ParserMonad()
+    let parser = ParserMonad()

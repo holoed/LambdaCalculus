@@ -9,26 +9,29 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open System
-open ParserMonad
-open ParserCombinators
+namespace LambdaCalculus
+module Tokenizer =
 
-type Token = | Letter of char
-             | Symbol of char
-             | WhiteSpace
-             | Empty
+    open System
+    open LambdaCalculus.ParserMonad
+    open LambdaCalculus.ParserCombinators
 
-let letter = parser { let! x = sat Char.IsLetter
-                      return Letter(x) }
-                       
-let symbol = parser { let! x = sat (fun ch -> ch = 'λ' or ch = '.' or ch = '(' or ch = ')')
-                      return Symbol(x) } 
-                      
-let whiteSpace = parser { let! _ = sat (fun ch -> ch = ' ')
-                          return WhiteSpace }                   
+    type Token = | Letter of char
+                 | Symbol of char
+                 | WhiteSpace
+                 | Empty
 
-let lex = symbol +++ letter +++ whiteSpace
+    let letter = parser { let! x = sat Char.IsLetter
+                          return Letter(x) }
+                           
+    let symbol = parser { let! x = sat (fun ch -> ch = 'λ' || ch = '.' || ch = '(' || ch = ')')
+                          return Symbol(x) } 
+                          
+    let whiteSpace = parser { let! _ = sat (fun ch -> ch = ' ')
+                              return WhiteSpace }                   
 
-let tokenize s = match apply (many lex) (Seq.to_list s)  with
-                 | [] -> failwith "failed to tokenize"
-                 | (ret, _)::xs -> ret 
+    let lex = symbol +++ letter +++ whiteSpace
+
+    let tokenize s = match apply (many lex) (Seq.toList s)  with
+                     | [] -> failwith "failed to tokenize"
+                     | (ret, _)::xs -> ret 

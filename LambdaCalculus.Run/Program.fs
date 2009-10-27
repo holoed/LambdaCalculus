@@ -9,45 +9,48 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open System
-open Tokenizer
-open Parser
-open Interpreter
-open AstToCode
-open Numbers
+namespace LambdaCalculus.Run
+module Program =
 
-printfn "Lambda Calculus interpreter 0.0.0.1"
+    open System
+    open LambdaCalculus.Tokenizer
+    open LambdaCalculus.Parser
+    open LambdaCalculus.Interpreter
+    open LambdaCalculus.AstToCode
+    open LambdaCalculus.Numbers
 
-System.Console.OutputEncoding <- System.Text.Encoding.UTF8
+    printfn "Lambda Calculus interpreter 0.0.0.1"
 
-let rec readLine (s:string) =    let ch = System.Console.ReadKey();
-                                 let pos = if Console.CursorLeft > 0 then (Console.CursorLeft - 1) else 0
-                                 System.Console.SetCursorPosition(pos, Console.CursorTop);
-                                 if (ch.KeyChar = '\b' && pos > 0) then
-                                  System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
-                                  Console.Write(' ');
-                                  System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
-                                  readLine (s.Remove(s.Length - 1, 1))
-                                 elif (ch.KeyChar = '\r') then
-                                  Console.WriteLine()
-                                  s
-                                 elif (ch.KeyChar = '\\') then
-                                  Console.Write('λ')
-                                  readLine (sprintf "%s%c" s 'λ') 
-                                 else
-                                  Console.Write(ch.KeyChar);
-                                  readLine (sprintf "%s%c" s ch.KeyChar) 
-                       
+    System.Console.OutputEncoding <- System.Text.Encoding.UTF8
 
-while(true) do
- printf "> "
- let line = readLine ""
- if (line <> null && line <> "" && line<> "\r") then
-        try
-            line
-            |> interpret
-            |> toString
-            |> printfn "%s"
-        with
-        | ex -> printfn "%s" ex.Message
+    let rec readLine (s:string) =    let ch = System.Console.ReadKey();
+                                     let pos = if Console.CursorLeft > 0 then (Console.CursorLeft - 1) else 0
+                                     System.Console.SetCursorPosition(pos, Console.CursorTop);
+                                     if (ch.KeyChar = '\b' && pos > 0) then
+                                      System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
+                                      Console.Write(' ');
+                                      System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
+                                      readLine (s.Remove(s.Length - 1, 1))
+                                     elif (ch.KeyChar = '\r') then
+                                      Console.WriteLine()
+                                      s
+                                     elif (ch.KeyChar = '\\') then
+                                      Console.Write('λ')
+                                      readLine (sprintf "%s%c" s 'λ') 
+                                     else
+                                      Console.Write(ch.KeyChar);
+                                      readLine (sprintf "%s%c" s ch.KeyChar) 
+                           
+
+    while(true) do
+     printf "> "
+     let line = readLine ""
+     if (line <> null && line <> "" && line<> "\r") then
+            try
+                line
+                |> interpret
+                |> toString
+                |> printfn "%s"
+            with
+            | ex -> printfn "%s" ex.Message
                          

@@ -9,20 +9,24 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open Tokenizer
+namespace LambdaCalculus
+module Ast = 
 
-// AST data type
-type exp = | Var of Token
-           | Lambda of Token * exp
-           | Apply of exp * exp
+    open Tokenizer
 
-// Generalised tail recursive fold over AST datatype (Catamorphism)
-let foldExpr varF lamF appF exp = 
-    let rec Loop e cont = 
-        match e with
-        | Var (Letter x) -> cont (varF x)
-        | Lambda (Letter x, body) -> Loop body (fun bodyAcc -> cont (lamF x bodyAcc))
-        | Apply (l, r) -> Loop l (fun lAcc ->
-                          Loop r (fun rAcc ->
-                                  cont (appF lAcc rAcc)))
-    Loop exp (fun x -> x)
+    // AST data type
+    type exp = | Var of Token
+               | Lambda of Token * exp
+               | Apply of exp * exp
+
+    // Generalised tail recursive fold over AST datatype (Catamorphism)
+    let foldExpr varF lamF appF exp = 
+        let rec Loop e cont = 
+            match e with
+            | Var (Letter x) -> cont (varF x)
+            | Lambda (Letter x, body) -> Loop body (fun bodyAcc -> cont (lamF x bodyAcc))
+            | Apply (l, r) -> Loop l (fun lAcc ->
+                              Loop r (fun rAcc ->
+                                      cont (appF lAcc rAcc)))
+            | _ -> failwith "This should never happen."
+        Loop exp (fun x -> x)

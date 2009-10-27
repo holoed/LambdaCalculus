@@ -9,14 +9,14 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open Tokenizer
-open Ast
+namespace LambdaCalculus
+module AstToCode =
 
-let toString =
-    foldExpr
-        (fun x -> sprintf "%c" x)
-        (fun x y -> sprintf "(λ%c.%s)" x y)
-        (fun x y -> sprintf "(%s %s)" x y)
+    open Tokenizer
+    open Ast
 
-
-
+    let toString =
+        foldExpr
+            (fun x -> sprintf "%c" x)
+            (fun x y -> sprintf "(λ%c.%s)" x y)
+            (fun x y -> sprintf "(%s %s)" x y)

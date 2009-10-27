@@ -9,83 +9,86 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open NUnit.Framework
-open Numbers
-open Interpreter
-open AstToCode
+namespace LambdaCalculus.Tests
+module NumbersTests =
 
-[<TestFixture>]
-type NumberTests = 
-    new() = {}
-    
-    [<Test>]
-    member o.Zero() = 
-        "λf.λx.x" 
-        |> interpret
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(0, actual)
-        
-    [<Test>]
-    member o.One() = 
-        "λf.λx.(f x)" 
-        |> interpret
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(1, actual)
-        
-    [<Test>]
-    member o.Two() = 
-        "λf.λx.(f (f x))" 
-        |> interpret
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(2, actual)
-        
-    [<Test>]
-    member o.Three() = 
-        "λf.λx.(f (f (f x)))" 
-        |> interpret
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(3, actual)
-        
-    [<Test>]
-    member o.Seven() = 
-        "λf.λx.(f (f (f (f (f (f (f x)))))))" 
-        |> interpret
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(7, actual)
-                
-    [<Test>]
-    [<ExpectedException>]
-    member o.NaN() = 
-        "λx.x" 
-        |> interpret
-        |> toNumber
-        |> ignore
-        
-    [<Test>]
-    member o.From0() =
-        0
-        |> FromNumber
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(0, actual)
-        
-    [<Test>]
-    member o.From1() =
-        1
-        |> FromNumber
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(1, actual)
-        
-    [<Test>]
-    member o.From2() =
-        2
-        |> FromNumber
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(2, actual)
+    open NUnit.Framework
+    open LambdaCalculus.Numbers
+    open LambdaCalculus.Interpreter
+    open LambdaCalculus.AstToCode
 
-    [<Test>]
-    member o.From7() =
-        7
-        |> FromNumber
-        |> toNumber
-        |> fun actual -> Assert.AreEqual(7, actual)                        
+    [<TestFixture>]
+    type NumberTests = 
+        new() = {}
+        
+        [<Test>]
+        member o.Zero() = 
+            "λf.λx.x" 
+            |> interpret
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(0, actual)
+            
+        [<Test>]
+        member o.One() = 
+            "λf.λx.(f x)" 
+            |> interpret
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(1, actual)
+            
+        [<Test>]
+        member o.Two() = 
+            "λf.λx.(f (f x))" 
+            |> interpret
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(2, actual)
+            
+        [<Test>]
+        member o.Three() = 
+            "λf.λx.(f (f (f x)))" 
+            |> interpret
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(3, actual)
+            
+        [<Test>]
+        member o.Seven() = 
+            "λf.λx.(f (f (f (f (f (f (f x)))))))" 
+            |> interpret
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(7, actual)
+                    
+        [<Test>]
+        [<ExpectedException>]
+        member o.NaN() = 
+            "λx.x" 
+            |> interpret
+            |> toNumber
+            |> ignore
+            
+        [<Test>]
+        member o.From0() =
+            0
+            |> FromNumber
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(0, actual)
+            
+        [<Test>]
+        member o.From1() =
+            1
+            |> FromNumber
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(1, actual)
+            
+        [<Test>]
+        member o.From2() =
+            2
+            |> FromNumber
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(2, actual)
+
+        [<Test>]
+        member o.From7() =
+            7
+            |> FromNumber
+            |> toNumber
+            |> fun actual -> Assert.AreEqual(7, actual)                        
         

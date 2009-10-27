@@ -9,69 +9,72 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open NUnit.Framework
-open Tokenizer
-open Ast
-open Parser
-open Interpreter
-open Numbers
-open AstToCode
+namespace LambdaCalculus.Tests
+module SubstTests = 
 
-let parse exp = exp |> tokenize |> parse
+    open NUnit.Framework
+    open LambdaCalculus.Tokenizer
+    open LambdaCalculus.Ast
+    open LambdaCalculus.Parser
+    open LambdaCalculus.Interpreter
+    open LambdaCalculus.Numbers
+    open LambdaCalculus.AstToCode
 
-[<TestFixture>]
-type SubstTests=
-    new () = {}
-    
-    [<Test>]
-    member o.SubsOne() = 
-        Assert.AreEqual(Var (Letter 'y'), 
-            subst (Letter 'x') (Var(Letter 'y')) (Var (Letter 'x'))) 
-        
-    [<Test>]
-    member o.DontSubs() = 
-        Assert.AreEqual(Var (Letter 'x'), 
-            subst (Letter 'z') (Var(Letter 'y')) (Var (Letter 'x'))) 
-        
-    [<Test>]
-    member o.LambdaSubs() = 
-        Assert.AreEqual((Lambda(Letter 'a', Var (Letter 'y'))), 
-            subst (Letter 'x') (Var(Letter 'y')) (Lambda(Letter 'a', Var (Letter 'x')))) 
-            
-    [<Test>]
-    member o.ApplySubs() = 
-        Assert.AreEqual(
-            parse "λx.(g (λy.k))", 
-            subst (Letter 'c') (Var(Letter 'k')) (parse "λx.(g (λy.c))")) 
-            
-    [<Test>]
-    member o.Test5() = 
-        Assert.AreEqual(
-            parse "λx.((λj.k) (λy.k))", 
-            subst (Letter 'c') (Var(Letter 'k')) (parse "λx.((λj.c) (λy.c))")) 
-            
-    [<Test>]
-    member o.Test6() = 
-        Assert.AreEqual(
-            parse "λx.((λa.k) (λb.((λe.k) (λf.k))))", 
-            subst (Letter 'c') (Var(Letter 'k')) (parse "λx.((λa.c) (λb.((λe.c) (λf.c))))"))             
+    let parse exp = exp |> tokenize |> parse
 
-    [<Test>]
-    member o.Test7() = 
-        Assert.AreEqual(
-            parse "λx.((λa.k) (λc.((λe.c) (λf.c))))", 
-            subst (Letter 'c') (Var(Letter 'k')) (parse "λx.((λa.c) (λc.((λe.c) (λf.c))))"))   
-            
-            
-    [<Test>]
-    [<Ignore("Make toNumber Tail Recursive")>]
-    member o.Test8() = 
-        let number = match (FromNumber 100000) with
-                     | Lambda(Letter 'f', body) -> body 
-                     | _ -> failwith "not a number"
+    [<TestFixture>]
+    type SubstTests=
+        new () = {}
         
-        let ret = number
-                  |> subst (Letter 'f') (Var(Letter 'g'))
-                  |> subst (Letter 'g') (Var(Letter 'f'))
-                  |> toNumber
-        Assert.AreEqual(100000, ret)
+        [<Test>]
+        member o.SubsOne() = 
+            Assert.AreEqual(Var (Letter 'y'), 
+                subst (Letter 'x') (Var(Letter 'y')) (Var (Letter 'x'))) 
+            
+        [<Test>]
+        member o.DontSubs() = 
+            Assert.AreEqual(Var (Letter 'x'), 
+                subst (Letter 'z') (Var(Letter 'y')) (Var (Letter 'x'))) 
+            
+        [<Test>]
+        member o.LambdaSubs() = 
+            Assert.AreEqual((Lambda(Letter 'a', Var (Letter 'y'))), 
+                subst (Letter 'x') (Var(Letter 'y')) (Lambda(Letter 'a', Var (Letter 'x')))) 
+                
+        [<Test>]
+        member o.ApplySubs() = 
+            Assert.AreEqual(
+                parse "λx.(g (λy.k))", 
+                subst (Letter 'c') (Var(Letter 'k')) (parse "λx.(g (λy.c))")) 
+                
+        [<Test>]
+        member o.Test5() = 
+            Assert.AreEqual(
+                parse "λx.((λj.k) (λy.k))", 
+                subst (Letter 'c') (Var(Letter 'k')) (parse "λx.((λj.c) (λy.c))")) 
+                
+        [<Test>]
+        member o.Test6() = 
+            Assert.AreEqual(
+                parse "λx.((λa.k) (λb.((λe.k) (λf.k))))", 
+                subst (Letter 'c') (Var(Letter 'k')) (parse "λx.((λa.c) (λb.((λe.c) (λf.c))))"))             
+
+        [<Test>]
+        member o.Test7() = 
+            Assert.AreEqual(
+                parse "λx.((λa.k) (λc.((λe.c) (λf.c))))", 
+                subst (Letter 'c') (Var(Letter 'k')) (parse "λx.((λa.c) (λc.((λe.c) (λf.c))))"))   
+                
+                
+        [<Test>]
+        [<Ignore("Make toNumber Tail Recursive")>]
+        member o.Test8() = 
+            let number = match (FromNumber 100000) with
+                         | Lambda(Letter 'f', body) -> body 
+                         | _ -> failwith "not a number"
+            
+            let ret = number
+                      |> subst (Letter 'f') (Var(Letter 'g'))
+                      |> subst (Letter 'g') (Var(Letter 'f'))
+                      |> toNumber
+            Assert.AreEqual(100000, ret)

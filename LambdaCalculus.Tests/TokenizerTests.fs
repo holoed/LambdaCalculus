@@ -9,39 +9,42 @@
 // * You must not remove this notice, or any other, from this software.
 // * **********************************************************************************************
 
-open NUnit.Framework
-open Tokenizer
+namespace LambdaCalculus.Tests
+module TokenizerTests = 
 
-[<TestFixture>]
-type TokenizerTests =
-    new() = {}
-    
-    [<Test>]
-    member x.Test() = Assert.Pass()
+    open NUnit.Framework
+    open LambdaCalculus.Tokenizer
 
-    [<Test>]
-    member x.Letter() = Assert.AreEqual([Letter('x')], tokenize "x")
-
-    [<Test>]
-    member x.Symbol() = 
-        Assert.AreEqual([Symbol('λ')], tokenize "λ")
-        Assert.AreEqual([Symbol('.')], tokenize ".")
-        Assert.AreEqual([Symbol('(')], tokenize "(")
-        Assert.AreEqual([Symbol(')')], tokenize ")")
-        Assert.AreEqual([WhiteSpace], tokenize " ")
-
-    [<Test>]
-    member x.Lambda() = 
-        Assert.AreEqual(
-            [Symbol('λ');Letter('x');Symbol('.');Letter('x')], 
-            tokenize "λx.x")
+    [<TestFixture>]
+    type TokenizerTests =
+        new() = {}
         
-    [<Test>]
-    member x.Application() = 
-        Assert.AreEqual(
-            [Letter('x');WhiteSpace;Letter('y')], 
-            tokenize "x y")
-        Assert.AreEqual(
-            [Symbol('λ');Letter('x');Symbol('.');Letter('x');WhiteSpace;Symbol('λ');Letter('y');Symbol('.');Letter('y')], 
-            tokenize "λx.x λy.y")
-        
+        [<Test>]
+        member x.Test() = Assert.Pass()
+
+        [<Test>]
+        member x.Letter() = Assert.AreEqual([Letter('x')], tokenize "x")
+
+        [<Test>]
+        member x.Symbol() = 
+            Assert.AreEqual([Symbol('λ')], tokenize "λ")
+            Assert.AreEqual([Symbol('.')], tokenize ".")
+            Assert.AreEqual([Symbol('(')], tokenize "(")
+            Assert.AreEqual([Symbol(')')], tokenize ")")
+            Assert.AreEqual([WhiteSpace], tokenize " ")
+
+        [<Test>]
+        member x.Lambda() = 
+            Assert.AreEqual(
+                [Symbol('λ');Letter('x');Symbol('.');Letter('x')], 
+                tokenize "λx.x")
+            
+        [<Test>]
+        member x.Application() = 
+            Assert.AreEqual(
+                [Letter('x');WhiteSpace;Letter('y')], 
+                tokenize "x y")
+            Assert.AreEqual(
+                [Symbol('λ');Letter('x');Symbol('.');Letter('x');WhiteSpace;Symbol('λ');Letter('y');Symbol('.');Letter('y')], 
+                tokenize "λx.x λy.y")
+            
