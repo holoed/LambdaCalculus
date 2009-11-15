@@ -18,39 +18,22 @@ module Program =
     open LambdaCalculus.Interpreter
     open LambdaCalculus.AstToCode
     open LambdaCalculus.Numbers
+    open LambdaCalculus.Repl
+    open LambdaCalculus.IO
 
     printfn "Lambda Calculus interpreter 0.0.0.1"
 
     System.Console.OutputEncoding <- System.Text.Encoding.UTF8
-
-    let rec readLine (s:string) =    let ch = System.Console.ReadKey();
-                                     let pos = if Console.CursorLeft > 0 then (Console.CursorLeft - 1) else 0
-                                     System.Console.SetCursorPosition(pos, Console.CursorTop);
-                                     if (ch.KeyChar = '\b' && pos > 0) then
-                                      System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
-                                      Console.Write(' ');
-                                      System.Console.SetCursorPosition(pos + 1, Console.CursorTop);
-                                      readLine (s.Remove(s.Length - 1, 1))
-                                     elif (ch.KeyChar = '\r') then
-                                      Console.WriteLine()
-                                      s
-                                     elif (ch.KeyChar = '\\') then
-                                      Console.Write('λ')
-                                      readLine (sprintf "%s%c" s 'λ') 
-                                     else
-                                      Console.Write(ch.KeyChar);
-                                      readLine (sprintf "%s%c" s ch.KeyChar) 
-                           
-
-    while(true) do
-     printf "> "
-     let line = readLine ""
-     if (line <> null && line <> "" && line<> "\r") then
-            try
-                line
-                |> interpret
-                |> toString
-                |> printfn "%s"
-            with
-            | ex -> printfn "%s" ex.Message
-                         
+                             
+    while(true) do run (IO { 
+                              do! Helpers.write "> "
+                              let! line = readLine ""
+                              return if (line <> null && line <> "" && line<> "\r") then
+                                        try
+                                            line
+                                            |> interpret
+                                            |> toString
+                                            |> printfn "%s"
+                                        with
+                                        | ex -> printfn "%s" ex.Message })
+                                             

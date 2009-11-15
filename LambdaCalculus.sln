@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 10
+# Visual Studio 2010
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus", "LambdaCalculus\LambdaCalculus.fsproj", "{CB19AB21-9808-4C36-97A5-79A9B30A8D66}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus.Tests", "LambdaCalculus.Tests\LambdaCalculus.Tests.fsproj", "{97C276E7-2A07-47A8-9775-A934A6F374BE}"
@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus.Run", "LambdaCalculus.Run\LambdaCalculus.Run.fsproj", "{997DF2AB-C095-4899-B2F8-778D11DD0490}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "LambdaCalculus.Repl", "LambdaCalculus.Repl\LambdaCalculus.Repl.fsproj", "{532C5DA0-654B-4E88-80A2-549A7F1ED7D6}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs09.codeplex.com/
 		SccLocalPath0 = .
@@ -27,6 +29,9 @@ Global
 		SccProjectUniqueName3 = LambdaCalculus.Run\\LambdaCalculus.Run.fsproj
 		SccProjectName3 = LambdaCalculus.Run
 		SccLocalPath3 = LambdaCalculus.Run
+		SccProjectUniqueName4 = LambdaCalculus.Repl\\LambdaCalculus.Repl.fsproj
+		SccProjectName4 = LambdaCalculus.Repl
+		SccLocalPath4 = LambdaCalculus.Repl
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +50,10 @@ Global
 		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{997DF2AB-C095-4899-B2F8-778D11DD0490}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532C5DA0-654B-4E88-80A2-549A7F1ED7D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532C5DA0-654B-4E88-80A2-549A7F1ED7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532C5DA0-654B-4E88-80A2-549A7F1ED7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532C5DA0-654B-4E88-80A2-549A7F1ED7D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

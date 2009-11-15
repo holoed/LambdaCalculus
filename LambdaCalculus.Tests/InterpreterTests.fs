@@ -32,6 +32,10 @@ module InterpreterTests =
         [<Test>]
         member o.Identity() = 
             Assert.AreEqual("(λy.y)", interpret "(λx.x) (λy.y)")
+
+        [<Test>]
+        member o.NoCapture() =
+            Assert.AreEqual("(λx.x)", interpret "(λx.(λx.x)) (λy.y)")
             
         [<Test>]
         member o.Succ() = 

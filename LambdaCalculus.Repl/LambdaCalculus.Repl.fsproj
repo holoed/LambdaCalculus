@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{997df2ab-c095-4899-b2f8-778d11dd0490}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>LambdaCalculus.Run</RootNamespace>
-    <AssemblyName>lci</AssemblyName>
+    <ProjectGuid>{532c5da0-654b-4e88-80a2-549a7f1ed7d6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>LambdaCalculus.Repl</RootNamespace>
+    <AssemblyName>LambdaCalculus.Repl</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <Name>LambdaCalculus.Run</Name>
+    <Name>LambdaCalculus.Repl</Name>
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
@@ -33,34 +33,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <Tailcalls>true</Tailcalls>
-    <Optimize>false</Optimize>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="FSharp.Core" />
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.fs" />
+    <Compile Include="IO.fs" />
+    <Compile Include="Repl.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\LambdaCalculus.Repl\LambdaCalculus.Repl.fsproj">
-      <Name>LambdaCalculus.Repl</Name>
-      <Project>{532c5da0-654b-4e88-80a2-549a7f1ed7d6}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\LambdaCalculus\LambdaCalculus.fsproj">
-      <Name>LambdaCalculus</Name>
-      <Project>{cb19ab21-9808-4c36-97a5-79a9b30a8d66}</Project>
-      <Private>True</Private>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(ProgramFiles)\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.
 	<Target Name="BeforeBuild">
