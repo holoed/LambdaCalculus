@@ -21,8 +21,8 @@ module IO =
         static member cursorLeft = IOAction(fun () -> Console.CursorLeft)
         static member cursorTop  = IOAction(fun () -> Console.CursorTop)
         static member readKey () = IOAction(fun () -> Console.ReadKey () )
-        static member write (ch:System.Char) = IOAction(fun () -> Console.Write ch )
-        static member write (ch:System.String) = IOAction(fun () -> Console.Write ch )
+        static member write (ch:char) = IOAction(fun () -> Console.Write ch )
+        static member write (ch:string) = IOAction(fun () -> Console.Write ch )
         static member writeLine () = IOAction(fun () -> Console.WriteLine () )
         static member setCursorPosition left top = IOAction(fun () -> Console.SetCursorPosition (left, top))
 
