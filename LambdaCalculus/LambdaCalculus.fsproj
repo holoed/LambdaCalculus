@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContinuationMonad.fs" />
     <Compile Include="ParserMonad.fs" />
     <Compile Include="ParserCombinators.fs" />
     <Compile Include="Tokenizer.fs" />

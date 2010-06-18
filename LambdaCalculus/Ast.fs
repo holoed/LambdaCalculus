@@ -13,6 +13,7 @@ namespace LambdaCalculus
 module Ast = 
 
     open Tokenizer
+    open ContinuationMonad
 
     // AST data type
     type exp = | Var of Token
@@ -21,12 +22,13 @@ module Ast =
 
     // Generalised tail recursive fold over AST datatype (Catamorphism)
     let foldExpr varF lamF appF exp = 
-        let rec Loop e cont = 
-            match e with
-            | Var (Letter x) -> cont (varF x)
-            | Lambda (Letter x, body) -> Loop body (fun bodyAcc -> cont (lamF x bodyAcc))
-            | Apply (l, r) -> Loop l (fun lAcc ->
-                              Loop r (fun rAcc ->
-                                      cont (appF lAcc rAcc)))
-            | _ -> failwith "This should never happen."
+        let rec Loop e = 
+            cont { match e with
+                   | Var (Letter x) -> return (varF x)
+                   | Lambda (Letter x, body) -> let! bodyAcc = Loop body
+                                                return lamF x bodyAcc                   
+                   | Apply (l, r) -> let! lAcc = Loop l
+                                     let! rAcc = Loop r
+                                     return (appF lAcc rAcc)                   
+                   | _ -> return failwith "This should never happen." }
         Loop exp (fun x -> x)

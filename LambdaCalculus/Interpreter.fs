@@ -16,32 +16,36 @@ module Interpreter =
     open Tokenizer
     open Ast
     open AstToCode
+    open ContinuationMonad
 
-    //Tail Recursive Version using CPS Technique
+    //Tail Recursive Version using continuation monad
     let subst x v e =
         let subst' (x,v,e) =
-            let rec Loop (x, e) cont =
-                match e with
-                | Var(y) -> cont (if x = y then v else e)
-                | Lambda(y, body) -> let x' = if x = y then Empty else x
-                                     Loop (x', body) (fun bodyAcc ->
-                                     cont (Lambda(y, bodyAcc)))
-                | Apply(l, r) -> Loop (x, l) (fun lacc ->
-                                 Loop (x, r) (fun racc ->
-                                 cont (Apply(lacc, racc))))
+            let rec Loop (x, e) =
+                cont { match e with
+                       | Var(y) -> return (if x = y then v else e)
+                       | Lambda(y, body) -> let x' = if x = y then Empty else x
+                                            let! bodyAcc = Loop (x', body)
+                                            return Lambda(y, bodyAcc)
+                                            
+                       | Apply(l, r) -> let! lacc = Loop (x, l)
+                                        let! racc = Loop (x, r)
+                                        return Apply (lacc, racc) }
             Loop (x, e) (fun x -> x)
         subst' (x,v,e)
 
     let rec reduce e =
-        let rec Loop e cont =
-            match e with
-            | Var _ -> cont e
-            | Lambda (s, e') -> Loop e' (fun eAcc' -> cont(Lambda(s, eAcc')))
-            | Apply(e1, e2) ->
-               match e1 with
-               | Lambda(s, e3) -> cont(subst s e2 e3)
-               | _ -> Loop e1 (fun e1Acc ->
-                      Loop e2 (fun e2Acc -> cont(Apply(e1Acc, e2Acc))))
+        let rec Loop e =
+            cont { match e with
+                   | Var _ -> return e
+                   | Lambda (s, e') -> let! eAcc' = Loop e'
+                                       return Lambda (s, eAcc')
+                                      
+                   | Apply(e1, e2) -> match e1 with
+                                      | Lambda(s, e3) -> return (subst s e2 e3)
+                                      | _ -> let! e1Acc = Loop e1
+                                             let! e2Acc = Loop e2
+                                             return Apply (e1Acc, e2Acc) }
         Loop e (fun x -> x)
 
     let rec loop f x =
